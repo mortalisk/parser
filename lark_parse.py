@@ -1,5 +1,9 @@
 from lark import Lark
 grammar = r"""
+WHITESPACE: (" ")+
+%ignore WHITESPACE
+%ignore COMMENT
+
 
 %import common.ESCAPED_STRING   -> STRING
 %import common.CNAME
@@ -7,26 +11,29 @@ grammar = r"""
 %import common.NEWLINE          -> NEWLINE
 
 
-arg: CNAME | NUMBER | arglist | STRING 
+CHAR: /[.a-zæøå10-9\<\>\/]/
+UNQUOTED: CHAR+
 
+
+arg: CNAME | NUMBER  | STRING | UNQUOTED
 arglist: CNAME kw_list
+
 kw_list: "(" [ kw_pair ("," kw_pair)*] ")"
-kw_val: arg
+kw_val: CNAME | NUMBER | STRING | UNQUOTED
 kw_pair: kw_name "=" kw_val
 kw_name: "<" CNAME ">"
 
-COMMENT: "--" /[^\n]*/
+COMMENT: /--[^\n]*/
 
 start: instruction+
 
-inst: "TEST" arg* -> test
+inst: "FORWARD_MODEL" arglist -> test
     | "DEFINE" kw_name arg -> define
+    | CNAME (arg | arglist)* -> undefined
 
-instruction: inst NEWLINE
 
-WHITESPACE: (" ")+
-%ignore WHITESPACE
-%ignore COMMENT
+instruction: inst (NEWLINE)
+
 
 """
 #%import common._STRING_ESC_INNER -> UNQUOTED

@@ -1,3 +1,6 @@
 DEFINE <hei> foo
-TEST lala --hei
-TEST HEI(<lolo>=1) fefef
+FORWARD_MODEL hei(<a>=<c>)
+FORWARD_MODEL HEI(<lolo>=1)
+
+STUOPID lol hei(<a>=c/f/æ/3/.././ ) ho --hei
+LOL foo
