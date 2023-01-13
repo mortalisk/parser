@@ -1,5 +1,3 @@
-HEI HEI
-TEST FOO(<BAR>="hei", <BAZ>="dei")
-TEST FOO(<BAR>="hei", <BAZ>="dei") -- comment
-TEST FOO(<BAR>="hei", <BAZ>="dei")-- comment
-TEST FOO(( -- comment
+DEFINE <hei> foo
+TEST lala --hei
+TEST HEI(<lolo>=1) fefef
