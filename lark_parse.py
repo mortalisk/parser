@@ -1,21 +1,26 @@
 from lark import Lark
 grammar = """
-statement: name arg* COMMENT?
-arg: name | number | arglist | string | path
 
-path: 
+%import common.ESCAPED_STRING   -> STRING
+%import common.CNAME
+%import common.SIGNED_NUMBER    -> NUMBER
 
-arglist: name kw_list
-kw_list: "(" [ kw_pair ("," kw_pair)*] ") 
-kw_pair: kw_name "=" string
-kw_name: "<" name ">"
+start: statement+
+statement: CNAME CNAME
+arg: CNAME | NUMBER | arglist | STRING 
 
-COMMENT: "//" /[^\n]*/ NEWLINE
-NEWLINE: "\n"
+arglist: CNAME kw_list
+kw_list: "(" [ kw_pair ("," kw_pair)*] ")"
+kw_pair: kw_name "=" STRING
+kw_name: "<" CNAME ">"
 
-%import common.ESCAPED_STRING   -> string
-%import common.CNAME -> name
-%import common.SIGNED_NUMBER    -> number
+comment: "//" STRING*
+
+
+
 """
 
-parser = Lark()
+with open("snake_oil.ert") as f:
+    parser = Lark(grammar)
+    tree = parser.parse(f.read())
+    print(tree)

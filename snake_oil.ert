@@ -1,4 +1,5 @@
-
+HEI HEI
+TEST FOO(<BAR>="hei", <BAZ>="dei")
 TEST FOO(<BAR>="hei", <BAZ>="dei") -- comment
 TEST FOO(<BAR>="hei", <BAZ>="dei")-- comment
 TEST FOO(( -- comment
